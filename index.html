@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Generador de Tarjetas by Team Demper</title>
+  <style>
+    /* Estilos CSS */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #2AD5F0;
+    }
+
+    h1 {
+      text-align: center;
+    }
+    body {
+  background-color: #D647DF;
+}
+
+
+    .formulario {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    select,
+    input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      margin-bottom: 15px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    #tarjetasGeneradas {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+      white-space: pre-wrap;
+    }
+
+    #banner {
+      background-color: #ccc;
+      width: 80%;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      position: fixed;
+      bottom: 0;
+      left: 10%;
+    }
+  
+ 
+
+    #byKinscarGames {
+    font-weight: bold;
+   }
+
+   #estatusLegal {
+  font-size: 12px;
+   }
+  </style>
+</head>
+
+<body>
+  <h1>Generador de Tarjetas by Team Demper</h1>
+
+  <div class="formulario">
+    <label for="bin">BIN:</label>
+    <input type="text" id="bin" placeholder="Ingrese el numero BIN" />
+
+    <label for="fecha">Fecha:</label>
+    <select id="fecha">
+      <option value="aleatorio">Aleatorio</option>
+      <option value="2023">2023</option>
+      <option value="2024">2024</option>
+      <option value="2025">2025</option>
+      <option value="2026">2026</option>
+      <option value="2027">2027</option>
+      <option value="2028">2028</option>
+      <option value="2029">2029</option>
+      <option value="2030">2030</option>
+      <option value="2031">2031</option>
+      <option value="2032">2032</option>
+      <option value="2033">2033</option>
+      <option value="2034">2034</option>
+      <option value="2035">2035</option>
+       </select>
+
+    <label for="meses">Meses:</label>
+    <select id="meses">
+      <option value="aleatorio">Aleatorio</option>
+      <option value="01">01</option>
+      <option value="02">02</option>
+      <option value="03">03</option>
+      <option value="04">04</option>
+      <option value="05">05</option>
+      <option value="06">06</option>
+      <option value="07">07</option>
+      <option value="08">08</option>
+      <option value="09">09</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+    </select>
+
+    <label for="cvv">CVV:</label>
+    <input type="text" id="cvv" placeholder="Ingrese el CVV" />
+
+    <label for="cantidad">Cantidad:</label>
+    <input type="number" id="cantidad" min="1" max="50" />
+
+    <button onclick="generarTarjetas()">Generar Tarjetas</button>
+
+    <div id="tarjetasGeneradas"></div>
+  </div>
+
+  </div>
+
+ 
+ 
+ 
+ 
+ 
+  <p>Debido a varios usos legales, los generadores de tarjetas de credito en linea y el uso de numeros de tarjetas de credito falsos no estan prohibidos, a menos que la informacion generada se use con fines maliciosos, como fraudes y estafas, etc. EL CREADOR DE ESTA PAGINA SE DESLINDA DE TODA RESPONSABILIDAD Y EL USO QUE LE DEN, EN CASO DE HABER UN PROBLEMA, EL AFECTADO SERIA EL QUE LO ESTE USANDO.</p>
+  
+  <script>
+function generarTarjetas() {
+  // Obtener los valores de los campos
+  var bin = document.getElementById("bin").value;
+  var fecha = document.getElementById("fecha").value;
+  var meses = document.getElementById("meses").value;
+  var cvv = document.getElementById("cvv").value;
+  var cantidad = document.getElementById("cantidad").value;
+
+  // Lógica para generar las tarjetas
+  var tarjetasGeneradas = "";
+
+  for (var i = 0; i < cantidad; i++) {
+    // Generar la tarjeta completa con los valores seleccionados o aleatorios
+    var numero = bin + generarNumeros(16 - bin.length, true);
+    var fechaVencimiento = (fecha === "aleatorio") ? generarFechaVencimiento() : meses + "/" + fecha;
+    var cvvTarjeta = (cvv === "") ? generarNumeros(3, false) : cvv;
+
+    // Agregar la tarjeta generada al resultado
+    tarjetasGeneradas += "Numero: " + numero + "<br>";
+    tarjetasGeneradas += "Fecha de vencimiento: " + fechaVencimiento + "<br>";
+    tarjetasGeneradas += "CVV: " + cvvTarjeta + "<br><br>";
+  }
+
+  // Mostrar las tarjetas generadas en el contenedor correspondiente
+  document.getElementById("tarjetasGeneradas").innerHTML = tarjetasGeneradas;
+}
+
+// Resto del código...
+
+function generarNumeros(longitud, permitirCero) {
+  var numeros = "123456789";
+  if (permitirCero) {
+    numeros += "0";
+  }
+  var resultado = "";
+
+  for (var i = 0; i < longitud; i++) {
+    resultado += numeros.charAt(Math.floor(Math.random() * numeros.length));
+  }
+  
+  return resultado;
+}
+
+function generarFechaVencimiento() {
+  var mes = Math.floor(Math.random() * 12) + 1;
+  if (mes < 10) {
+    mes = "0" + mes;
+  }
+
+  var anio = Math.floor(Math.random() * 12) + 23;
+
+  return mes + "/20" + anio;
+}
+
+
+
+</script>
+</body>
+</html>
